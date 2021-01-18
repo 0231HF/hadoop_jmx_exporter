@@ -1,4 +1,4 @@
-#!/usr/bin/env python2
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
 import time
@@ -34,7 +34,7 @@ def main():
     host = args.host
     port = int(args.port)
     start_http_server(port, host)
-    print "Listen at %s:%s" % (host, port)
+    print("Listen at %s:%s" % (host, port))
     register_prometheus(args.cluster, args)
     while True:
         time.sleep(300)

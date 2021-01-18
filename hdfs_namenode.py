@@ -1,4 +1,4 @@
-#!/usr/bin/env python2
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
 import yaml
@@ -391,7 +391,7 @@ class NameNodeMetricCollector(MetricCollector):
                 live_node_dict = yaml.safe_load(bean["LiveNodes"])
                 self.hadoop_namenode_metrics["NameNodeInfo"]["LiveNodeCount"].add_metric([self.cluster, self.target], len(live_node_dict))
                 dns = set()
-                for node, info in live_node_dict.items():
+                for node, info in list(live_node_dict.items()):
                     label = [self.cluster, node, info["infoAddr"], info["infoSecureAddr"], info["xferaddr"], info["version"], self.target]
                     items = ["lastContact", "usedSpace", "adminState", "nonDfsUsedSpace", "capacity", "numBlocks",
                              "used", "remaining", "blockScheduled", "blockPoolUsed", "blockPoolUsedPercent", "volfails"]
@@ -412,14 +412,14 @@ class NameNodeMetricCollector(MetricCollector):
             elif "DeadNodes" in metric and "DeadNodes" in bean:
                 dead_node_dict = yaml.safe_load(bean["DeadNodes"])
                 self.hadoop_namenode_metrics["NameNodeInfo"]["DeadNodeCount"].add_metric([self.cluster, self.target], len(dead_node_dict))
-                for node, info in dead_node_dict.items():
+                for node, info in list(dead_node_dict.items()):
                     label = [self.cluster, node, str(info["decommissioned"]), info["xferaddr"], self.target]
                     value = info["lastContact"]
                     self.hadoop_namenode_metrics["NameNodeInfo"]["DeadNodes"].add_metric(label, value)
             elif "DecomNodes" in metric and "DecomNodes" in bean:
                 decom_node_dict = yaml.safe_load(bean["DecomNodes"])
                 self.hadoop_namenode_metrics["NameNodeInfo"]["DecomNodeCount"].add_metric([self.cluster, self.target], len(decom_node_dict))
-                for node, info in decom_node_dict.items():
+                for node, info in list(decom_node_dict.items()):
                     label = [self.cluster, node, info["xferaddr"], self.target]
                     items = ["underReplicatedBlocks", "decommissionOnlyReplicas", "underReplicateInOpenFiles"]
                     for item in items:
@@ -430,7 +430,7 @@ class NameNodeMetricCollector(MetricCollector):
             elif "EnteringMaintenanceNodes" in metric and "EnteringMaintenanceNodes" in bean:
                 node_dict = yaml.safe_load(bean["EnteringMaintenanceNodes"])
                 self.hadoop_namenode_metrics["NameNodeInfo"]["MaintenanceNodeCount"].add_metric([self.cluster, self.target], len(node_dict))
-                for node, info in node_dict.items():
+                for node, info in list(node_dict.items()):
                     label = [self.cluster, node, info["xferaddr"], self.target]
                     items = ["underReplicatedBlocks", "maintenanceOnlyReplicas", "underReplicateInOpenFiles"]
                     for item in items:

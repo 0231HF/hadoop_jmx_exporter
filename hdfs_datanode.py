@@ -1,4 +1,4 @@
-#!/usr/bin/env python2
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
 import yaml
@@ -114,9 +114,9 @@ class DataNodeMetricCollector(MetricCollector):
             if 'VolumeInfo' in metric:
                 if 'VolumeInfo' in bean:
                     volume_info_dict = yaml.safe_load(bean['VolumeInfo'])
-                    for k, v in volume_info_dict.items():
+                    for k, v in list(volume_info_dict.items()):
                         path = k
-                        for key, val in v.items():
+                        for key, val in list(v.items()):
                             state = key
                             label = [self.cluster, version, path, state, self.target]
                             value = val
